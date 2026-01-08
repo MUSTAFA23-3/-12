@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { getAiAssistantResponse } from '../services/geminiService';
+import { getAiAssistantResponse } from './services/geminiService';
 
 const ChatWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
