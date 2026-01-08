@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-// تصحيح: g صغيرة لتطابق اسم الملف المرفوع في GitHub
-import { generateResponse } from './geminiService'; 
+import { generateResponse } from './geminiService';
 import { Message } from './types';
 
 const ChatWidget: React.FC = () => {
@@ -47,7 +46,7 @@ const ChatWidget: React.FC = () => {
                 <h3 className="font-black text-sm">مساعد زايد الذكي</h3>
                 <div className="flex items-center gap-1.5">
                   <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
-                  <span className="text-[10px] text-emerald-300 font-bold uppercase">متصل الآن</span>
+                  <span className="text-[10px] text-emerald-300 font-bold uppercase tracking-wider">متصل الآن</span>
                 </div>
               </div>
             </div>
@@ -56,7 +55,7 @@ const ChatWidget: React.FC = () => {
           <div className="flex-1 overflow-y-auto p-6 space-y-4">
             {messages.map((msg, idx) => (
               <div key={idx} className={flex ${msg.isBot ? 'justify-start' : 'justify-end'}}>
-                <div className={max-w-[85%] p-4 ${msg.isBot ? 'bg-white text-slate-800 rounded-2xl shadow-sm' : 'bg-emerald-600 text-white rounded-2xl shadow-md'}}>
+                <div className={max-w-[85%] p-4 ${msg.isBot ? 'bg-white text-slate-800 rounded-2xl shadow-sm border border-slate-100' : 'bg-emerald-600 text-white rounded-2xl shadow-md'}}>
                   <p className="text-sm leading-relaxed">{msg.text}</p>
                 </div>
               </div>
@@ -85,7 +84,7 @@ const ChatWidget: React.FC = () => {
 
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className={w-20 h-20 rounded-[2rem] flex items-center justify-center text-4xl shadow-2xl transition-all duration-500 ${isOpen ? 'bg-red-500 rotate-90' : 'bg-emerald-950'}}
+        className={w-20 h-20 rounded-[2rem] flex items-center justify-center text-4xl shadow-2xl transition-all duration-500 ${isOpen ? 'bg-red-500 rotate-90' : 'bg-emerald-950 hover:bg-emerald-600'}}
       >
         <span>{isOpen ? '✕' : '💬'}</span>
       </button>
