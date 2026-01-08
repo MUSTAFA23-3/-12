@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Course } from '../types';
+import { Course } from './types';
 
 interface HomeProps {
   courses: Course[];
