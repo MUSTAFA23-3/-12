@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Course, Student, DiscountCode, DashTab } from '../types';
+import { Course, Student, DiscountCode, DashTab } from './types';
 
 interface DashboardProps {
   courses: Course[];
