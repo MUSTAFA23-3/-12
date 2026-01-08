@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Course } from '../types';
+import { Course } from './types';
 
 interface CourseDetailsProps {
   course: Course;
