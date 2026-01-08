@@ -21,15 +21,17 @@ const ChatWidget: React.FC = () => {
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
+
     const userMessage = input.trim();
     setInput('');
     setMessages(prev => [...prev, { text: userMessage, isBot: false }]);
     setIsLoading(true);
+
     try {
       const response = await generateResponse(userMessage);
       setMessages(prev => [...prev, { text: response, isBot: true }]);
     } catch (error) {
-      setMessages(prev => [...prev, { text: 'عذراً، حدث خطأ ما. حاول مرة أخرى.', isBot: true }]);
+      setMessages(prev => [...prev, { text: 'عذراً، حدث خطأ ما في الاتصال. حاول مرة أخرى.', isBot: true }]);
     } finally {
       setIsLoading(false);
     }
@@ -39,6 +41,7 @@ const ChatWidget: React.FC = () => {
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4">
       {isOpen && (
         <div className="w-[350px] md:w-[420px] h-[550px] bg-slate-50 rounded-[2.5rem] shadow-2xl border border-white flex flex-col overflow-hidden">
+          {/* Header */}
           <div className="p-6 bg-emerald-950 text-white flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-emerald-500 rounded-2xl flex items-center justify-center text-xl">🤖</div>
@@ -52,6 +55,7 @@ const ChatWidget: React.FC = () => {
             </div>
           </div>
 
+          {/* Messages */}
           <div className="flex-1 overflow-y-auto p-6 space-y-4">
             {messages.map((msg, idx) => (
               <div key={idx} className={flex ${msg.isBot ? 'justify-start' : 'justify-end'}}>
@@ -60,9 +64,19 @@ const ChatWidget: React.FC = () => {
                 </div>
               </div>
             ))}
+            {isLoading && (
+              <div className="flex justify-start">
+                <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex gap-1.5">
+                  <div className="w-2 h-2 bg-emerald-500 rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-emerald-500 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                  <div className="w-2 h-2 bg-emerald-500 rounded-full animate-bounce [animation-delay:0.4s]"></div>
+                </div>
+              </div>
+            )}
             <div ref={messagesEndRef} />
           </div>
 
+          {/* Input Area */}
           <div className="p-6 bg-white border-t border-emerald-50 flex gap-3">
             <input 
               type="text" 
@@ -71,17 +85,18 @@ const ChatWidget: React.FC = () => {
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
               placeholder="تحدث معي كأنك مع المستر..." 
               className="flex-1 bg-slate-50 px-7 py-5 rounded-[2rem] text-sm font-black border border-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
-            />
+              />
             <button 
               onClick={handleSend}
               className="w-16 h-16 bg-emerald-600 text-white rounded-[1.5rem] flex items-center justify-center shadow-xl hover:bg-emerald-700 active:scale-90 transition-all"
             >
-              🚀
+              <span className="text-2xl">🚀</span>
             </button>
           </div>
         </div>
       )}
 
+      {/* Toggle Button */}
       <button 
         onClick={() => setIsOpen(!isOpen)}
         className={w-20 h-20 rounded-[2rem] flex items-center justify-center text-4xl shadow-2xl transition-all duration-500 ${isOpen ? 'bg-red-500 rotate-90' : 'bg-emerald-950 hover:bg-emerald-600'}}
