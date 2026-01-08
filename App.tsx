@@ -1,14 +1,16 @@
-
 import React, { useState, useEffect } from 'react';
-import { View, Course, Student, DiscountCode } from './types';
+// ⚠️ هام جداً: لا تنس رفع ملف types.ts و vite.config.ts لأنهما غير موجودين
+import { View, Course, Student, DiscountCode } from './types'; 
 import { INITIAL_COURSES, MOCK_STUDENTS, MOCK_CODES } from './constants';
-import Navbar from './components/Navbar';
-import Home from './components/Home';
-import Auth from './components/Auth';
-import CourseDetails from './components/CourseDetails';
-import Dashboard from './components/Dashboard';
-import ChatWidget from './components/ChatWidget';
-import Footer from './components/Footer';
+
+// ✅ هنا التعديل الصحيح: استدعاء الملفات بأحرف كبيرة كما هي موجودة لديك
+import Navbar from './Navbar';
+import Home from './Home';
+import Auth from './Auth';
+import CourseDetails from './CourseDetails';
+import Dashboard from './Dashboard';
+import ChatWidget from './ChatWidget';
+import Footer from './Footer';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>(View.HOME);
