@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 // استبدل المفتاح هنا بمفتاحك الحقيقي
-const API_KEY = "YOUR_GEMINI_API_KEY_HERE"; 
+const API_KEY = "AIzaSyBrrNwo7poFmDCRHqUGC_bVhUY3tx_GHLw"; 
 
 interface Message {
   text: string;
