@@ -48,7 +48,7 @@ const ChatWidget: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4">
+    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4" dir="rtl">
       {isOpen && (
         <div className="w-[350px] md:w-[420px] h-[550px] bg-slate-50 rounded-[2.5rem] shadow-2xl border border-white flex flex-col overflow-hidden">
           {/* Header */}
@@ -74,14 +74,14 @@ const ChatWidget: React.FC = () => {
             {messages.map((msg, idx) => (
               <div
                 key={idx}
-                className={flex ${msg.isBot ? "justify-start" : "justify-end"}}
+                className={`flex ${msg.isBot ? "justify-start" : "justify-end"}`}
               >
                 <div
-                  className={max-w-[85%] p-4 ${
+                  className={`max-w-[85%] p-4 ${
                     msg.isBot
                       ? "bg-white text-slate-800 rounded-2xl shadow-sm border border-slate-100"
                       : "bg-emerald-600 text-white rounded-2xl shadow-md"
-                  }}
+                  }`}
                 >
                   <p className="text-sm leading-relaxed">{msg.text}</p>
                 </div>
@@ -112,11 +112,11 @@ const ChatWidget: React.FC = () => {
       {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={w-20 h-20 rounded-[2rem] flex items-center justify-center text-4xl shadow-2xl transition-all duration-500 ${
+        className={`w-20 h-20 rounded-[2rem] flex items-center justify-center text-4xl shadow-2xl transition-all duration-500 ${
           isOpen
             ? "bg-red-500 rotate-90"
             : "bg-emerald-950 hover:bg-emerald-600"
-        }}
+        }`}
       >
         {isOpen ? "✕" : "💬"}
       </button>
