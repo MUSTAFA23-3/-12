@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 // استبدل المفتاح هنا بمفتاحك الحقيقي
-const API_KEY = "AIzaSyBrrNwo7poFmDCRHqUGC_bVhUY3tx_GHLw"; 
+const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 
 interface Message {
   text: string;
