@@ -74,9 +74,7 @@ const ChatWidget: React.FC = () => {
             {messages.map((msg, idx) => (
               <div
                 key={idx}
-                className={flex ${
-                  msg.isBot ? "justify-start" : "justify-end"
-                }}
+                className={flex ${msg.isBot ? "justify-start" : "justify-end"}}
               >
                 <div
                   className={max-w-[85%] p-4 ${
@@ -111,11 +109,13 @@ const ChatWidget: React.FC = () => {
           </div>
         </div>
       )}
-{/* Toggle Button */}
+      {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={w-20 h-20 rounded-[2rem] flex items-center justify-center text-4xl shadow-2xl transition-all duration-500 ${
-          isOpen ? "bg-red-500 rotate-90" : "bg-emerald-950 hover:bg-emerald-600"
+          isOpen
+            ? "bg-red-500 rotate-90"
+            : "bg-emerald-950 hover:bg-emerald-600"
         }}
       >
         {isOpen ? "✕" : "💬"}
