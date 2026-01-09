@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 
-// استبدل المفتاح هنا بمفتاحك الحقيقي
+// استخدام المتغير البيئي من Vercel للأمان
 const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 
 interface Message {
@@ -26,7 +26,9 @@ const ChatWidget: React.FC = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // --- الدالة المصححة للاتصال بـ Gemini ---
   const generateResponse = async (userPrompt: string) => {
+    // نستخدم الـ Backticks هنا لدمج المتغير داخل الرابط بشكل صحيح
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
     
     const response = await fetch(url, {
@@ -36,6 +38,10 @@ const ChatWidget: React.FC = () => {
         contents: [{ parts: [{ text: userPrompt }] }]
       })
     });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch response from Gemini");
+    }
 
     const data = await response.json();
     return data.candidates[0].content.parts[0].text;
@@ -55,7 +61,7 @@ const ChatWidget: React.FC = () => {
     } catch (err) {
       setMessages((prev) => [
         ...prev,
-        { text: "عذراً، حدث خطأ في الاتصال. تأكد من مفتاح الـ API وحاول مجدداً.", isBot: true },
+        { text: "عذراً، حدث خطأ في الاتصال. تأكد من إعدادات المفتاح وحاول مجدداً.", isBot: true },
       ]);
     } finally {
       setIsLoading(false);
@@ -80,7 +86,7 @@ const ChatWidget: React.FC = () => {
             </div>
           </div>
 
-          {/* Messages */}
+          {/* Messages Area */}
           <div className="flex-1 overflow-y-auto p-6 space-y-4">
             {messages.map((msg, idx) => (
               <div key={idx} className={`flex ${msg.isBot ? "justify-start" : "justify-end"}`}>
@@ -101,7 +107,7 @@ const ChatWidget: React.FC = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input */}
+          {/* Input Area */}
           <div className="p-6 bg-white border-t border-emerald-50 flex gap-3">
             <input
               type="text"
