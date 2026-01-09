@@ -1,11 +1,9 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { GoogleGenerativeAI } from "@google-cloud/generative-ai";
 
 // استبدل المفتاح هنا بمفتاحك الحقيقي
 const API_KEY = "YOUR_GEMINI_API_KEY_HERE"; 
-const genAI = new GoogleGenerativeAI(API_KEY);
 
 interface Message {
   text: string;
@@ -25,16 +23,22 @@ const ChatWidget: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const generateResponse = async (prompt: string) => {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    return response.text();
+  const generateResponse = async (userPrompt: string) => {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: userPrompt }] }]
+      })
+    });
+
+    const data = await response.json();
+    return data.candidates[0].content.parts[0].text;
   };
 
   const handleSend = async () => {
@@ -46,12 +50,12 @@ const ChatWidget: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const response = await generateResponse(userMessage);
-      setMessages((prev) => [...prev, { text: response, isBot: true }]);
+      const botText = await generateResponse(userMessage);
+      setMessages((prev) => [...prev, { text: botText, isBot: true }]);
     } catch (err) {
       setMessages((prev) => [
         ...prev,
-        { text: "عذراً، حدث خطأ في الاتصال. حاول مرة أخرى.", isBot: true },
+        { text: "عذراً، حدث خطأ في الاتصال. تأكد من مفتاح الـ API وحاول مجدداً.", isBot: true },
       ]);
     } finally {
       setIsLoading(false);
@@ -103,11 +107,11 @@ const ChatWidget: React.FC = () => {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSend()}
-              placeholder="تحدث معي كأنك مع المستر..."
+              onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+              placeholder="تحدث معي..."
               className="flex-1 bg-slate-50 px-7 py-5 rounded-[2rem] text-sm font-black border border-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
             />
-            <button
+            <button 
               onClick={handleSend}
               className="w-16 h-16 bg-emerald-600 text-white rounded-[1.5rem] flex items-center justify-center shadow-xl hover:bg-emerald-700 active:scale-90 transition-all"
             >
